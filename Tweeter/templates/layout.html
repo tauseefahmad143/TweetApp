@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html data-bs-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>
+        {% block title %}
+            Homepage
+        {% endblock %}
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        /* Ensure body and html take full height */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        /* Flexbox styles to ensure footer is at the bottom if content is short */
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        /* Existing styles */
+        a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        a:hover,
+        a:focus {
+            color: #0056b3;
+            background-color: #e9ecef;
+        }
+
+        a:active {
+            color: #003d7a;
+            background-color: #dee2e6;
+        }
+
+        .hu__hu__ { animation: hu__hu__ infinite 2s ease-in-out }
+        @keyframes hu__hu__ {
+            50% { transform: translateY(15px) }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-dark-subtle bg-body-tertiary">
+        <div class="container">
+            <h2 class="cssanimation hu__hu__"> Tweet_Bar </h2>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <form class="d-flex ms-auto me-2 my-2 my-lg-0" method="get" action="{% url 'tweet_search' %}">
+                    <input class="form-control me-2" type="search" name="query" placeholder="Search" aria-label="Search" value="{{ request.GET.query }}">
+                    <button class="btn btn-outline-primary" type="submit">Search</button>
+                </form>
+                <div class="d-flex align-items-center">
+                    <a href="{% url 'tweet_list' %}" class="btn btn-success mx-2">Home</a>
+                    {% if user.is_authenticated %}
+                        <form method="post" action="{% url 'logout' %}" class="mb-0">
+                            {% csrf_token %}
+                            <button class="btn btn-danger" type="submit">Logout</button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'register' %}" class="btn btn-primary mx-2">Register</a>
+                        <a href="{% url 'login' %}" class="btn btn-success mx-2">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="bg-dark-subtle">
+        <div class="container text-center">
+            <div class="row">
+                <!-- About Section -->
+                <div class="col-md-4 mb-md-0 mt-3">
+                    <h5>About</h5>
+                    <div class="row">
+                        <div class="col-12 col-md-6 mb-3 mb-md-0">
+                            <h6>Tweet_Bar</h6>
+                            <p>Tweet_Bar is a platform for sharing your thoughts and staying updated with the combinations of simplicity with real time updates.</p>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <h6>Design by</h6>
+                            <p><strong>Name:</strong> Tauseef Khan</p>
+                            <p><strong>Profession:</strong> Fullstack Developer</p>
+                            <p><strong>Address <i class="fas fa-home"></i> :</strong> Sakinaka, Mumbai (400072)</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Links Section -->
+                <div class="col-md-4 mb-4 mb-md-0 mt-3">
+                    <h5>Links</h5>
+                    <ul class="list-unstyled">
+                        {% if user.is_authenticated %}
+                        <li><a href="{% url 'tweet_list' %}"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="https://github.com/tauseefahmad143" target="_blank"><i class="fab fa-github"></i> GitHub Profile</a></li>
+                        {% else %}
+                        <li><a href="{% url 'tweet_list' %}"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="{% url 'register' %}"><i class="fas fa-user-plus"></i> Register</a></li>
+                        <li><a href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                        <li><a href="https://github.com/tauseefahmad143" target="_blank"><i class="fab fa-github"></i> GitHub Profile</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <!-- Contact Section -->
+                <div class="col-md-4 mt-3">
+                    <h5>Contact</h5>
+                    <p>Email Us: <a href="mailto:tauseefbhai85@gmail.com"><i class="fas fa-envelope"></i> tauseefbhai85@gmail.com</a></p>
+                    <p>Call Us: <a href="tel:+919721523530"><i class="fas fa-phone"></i></a></p>
+                    <p>WhatsApp Us: <a href="https://wa.me/919721523530" target="_blank"><i class="fab fa-whatsapp"></i></a></p>
+                    <p>Address <i class="fas fa-home"></i> : Sakinaka, Mumbai (400072)</p>
+                </div>
+            </div>
+            <div class="pb-1">
+                <p>&copy; 2024 Tweet_Bar. All rights reserved as per Government of India Copyright Act of 1957.</p>
+            </div>
+        </div>
+    </footer>
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
